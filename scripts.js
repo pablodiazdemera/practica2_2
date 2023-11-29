@@ -1,12 +1,52 @@
- // MODELO DE DATOS
+import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
+ 
+ //supabase credencial
+    const supabase = supabase.createClient("https://smtdbelepgdtzipjiiqq.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtdGRiZWxlcGdkdHppcGppaXFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDEyNjg3NzcsImV4cCI6MjAxNjg0NDc3N30.tk4xCGR-brcjXzM4xebrm3Wt8XeN7bZ-ljriZq3_M98");
+    //supabase credencial
 
- let mis_peliculas_iniciales = [
+//proyect apikey
+
+const API_KEY = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6';
+
+
+
+const supabase = createClient("https://smtdbelepgdtzipjiiqq.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtdGRiZWxlcGdkdHppcGppaXFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDEyNjg3NzcsImV4cCI6MjAxNjg0NDc3N30.tk4xCGR-brcjXzM4xebrm3Wt8XeN7bZ-ljriZq3_M98");
+
+const fetchPeliculas = async () => {
+    const { data, error } = await supabase.from('peliculas').select('*');
+    if (error) {
+        console.error(error);
+        return [];
+    }
+    return data;
+};
+
+const guardarPeliculas = async (peliculas) => {
+    const { data, error } = await supabase.from('peliculas').upsert(peliculas);
+    if (error) {
+        console.error(error);
+        return false;
+    }
+    return true;
+};
+
+let mis_peliculas_iniciales = [
     {titulo: "Interstellar",  director: "Christopher Nolan", "miniatura": "files/interstellar.png"},
     {titulo: "Jurassic Park", director: "Steven Spielberg", "miniatura": "files/jurassicpark.png"},
     {titulo: "Superlópez",   director: "Javier Ruiz Caldera", "miniatura": "files/superlopez.png"}
 ];
 
-localStorage.mis_peliculas = localStorage.mis_peliculas || JSON.stringify(mis_peliculas_iniciales);
+const cargarPeliculas = async () => {
+    const peliculas = await fetchPeliculas();
+    if (peliculas.length === 0) {
+        await guardarPeliculas(mis_peliculas_iniciales);
+        return mis_peliculas_iniciales;
+    }
+    return peliculas;
+};
+
+let peliculas = await cargarPeliculas();
 
 // VISTAS
 const indexView = (peliculas) => {
