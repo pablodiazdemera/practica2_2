@@ -178,3 +178,16 @@ document.addEventListener('click', ev => {
 
 // Inicialización        
 document.addEventListener('DOMContentLoaded', indexContr);
+
+const container = document.getElementById('smtdbelepgdtzipjiiqq'); // Reemplaza 'container' con el ID de tu contenedor HTML
+
+data.forEach(item => {
+  const elementoHTML = `
+    <div>
+      <h2>${item.titulo}</h2>
+      <p>Director: ${item.director}</p>
+      <img src="${item.miniatura}" alt="Miniatura">
+    </div>
+  `;
+  container.innerHTML += elementoHTML;
+});

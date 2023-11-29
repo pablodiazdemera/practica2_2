@@ -8,5 +8,8 @@
         "serverUrl": "https://autocorector.dit.upm.es/",
         "courseId": "1",
         "assignmentId": "2"
+    },
+    "dependencies": {
+        "supabase": "^1.115.4"
     }
 }
